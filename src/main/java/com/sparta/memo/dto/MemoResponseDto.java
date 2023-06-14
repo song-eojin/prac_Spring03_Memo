@@ -14,4 +14,11 @@ public class MemoResponseDto {
         this.username = memo.getUsername();
         this.contents = memo.getContents();
     }
+
+    //DB 연결 과정에서 필요한 생성자 오버라이딩이었음
+    public MemoResponseDto(Long id, String username, String contents) {
+        this.id = id;
+        this.username = username;
+        this.contents = contents;
+    }
 }
