@@ -13,9 +13,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class MemoController {
+
+    //현재 우리의 DB 역할
     private final Map<Long, Memo> memoList = new HashMap<>();
 
-    //메모 생성하기 기능 (POST)
+    //메모 생성하기 기능 (Post)
     @PostMapping("memos")
     public MemoResponseDto createMemo(@RequestBody MemoRequestDto requestDto) { //데이터가 넘어오는 형태가 Body 부분에 JSON 형태이므로 매개변수의 타입은 @RequestBody 이어야 한다.
 
@@ -37,7 +39,7 @@ public class MemoController {
     }
 
 
-    //메모 조회하기 기능 (GET)
+    //메모 조회하기 기능 (Get)
     @GetMapping("/memos")
     public List<MemoResponseDto> getMemos() {
         List<MemoResponseDto> responseList = memoList.values().stream().map(com.sparta.memo.dto.MemoResponseDto::new).toList();
@@ -46,5 +48,38 @@ public class MemoController {
     }
 
 
-    //
+    //메모 변경하기 기능 (Put)
+    @PutMapping("/memos/{id}") //UPDATE 하는 API 는 PUT
+
+    //@RequestBody 는 JSON 형식 데이터를 의미
+    public Long updateMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto) {
+
+
+        //해당 메모가 DB에 존재하는지 확인 (반환 타입은 boolean)
+        if(memoList.containsKey(id)){
+            //해당 메모 가져오기 (memoList 는 현재 DB 역할담당)
+            Memo memo = memoList.get(id);
+
+            //memo 수정
+            memo.update(requestDto);
+            return memo.getId();
+
+        } else {
+            throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다.");
+        }
+    }
+
+    //메모 삭제하기 기능 (Delete)
+    @DeleteMapping("/memos/{id}")
+    public Long deleteMemo(@PathVariable Long id) {
+        //해당 메모가 DB에 존재하는지 확인
+        if(memoList.containsKey(id)){
+            //해당 메모 삭제하기
+            memoList.remove(id);
+            return id;
+        } else {
+            throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다.");
+        }
+    }
+
 }

@@ -20,4 +20,10 @@ public class Memo {
         this.username = memoRequestDto.getUsername();
         this.contents = memoRequestDto.getContents();
     }
+
+    //메모 변경하기 기능을 위한 메서드
+    public void update(MemoRequestDto requestDto) {
+        this.username = requestDto.getUsername();
+        this.contents = requestDto.getContents();
+    }
 }
