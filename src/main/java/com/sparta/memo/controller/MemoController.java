@@ -22,9 +22,16 @@ public class MemoController {
     private final MemoService memoService;
 
     /*데이터를 전달하는 역할만 담당*/
-    public MemoController(JdbcTemplate jdbcTemplate) {
 
-        this.memoService = new MemoService(jdbcTemplate);
+    //의존성을 살펴보면 제어의 흐름은 MemoController -> MemoService
+    //현재 강한결합 상태
+    //public MemoController(JdbcTemplate jdbcTemplate) {
+    //this.memoService = new MemoService(jdbcTemplate);
+    //}
+    //약한 결합으로 만들기
+    public MemoController(MemoService memoService) {
+        this.memoService = memoService;
+
     }
 
     //메모 생성하기 기능 (Post : CREATE)

@@ -13,8 +13,8 @@ public class MemoService {
 
     //MemoRepository memoRepository = new MemoRepository(jdbcTemplate); 중복 제거
     private final MemoRepository memoRepository;
-    public MemoService(JdbcTemplate jdbcTemplate) {
-        this.memoRepository = new MemoRepository(jdbcTemplate);
+    public MemoService(MemoRepository memoRepository) {
+        this.memoRepository=memoRepository;
     }
 
 
