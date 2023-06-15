@@ -4,16 +4,26 @@ import com.sparta.memo.dto.MemoRequestDto;
 import com.sparta.memo.dto.MemoResponseDto;
 import com.sparta.memo.entity.Memo;
 import com.sparta.memo.repository.MemoRepository;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service //@Component (IoC 컨테이너에 Bean 객체로 등록) 포함
 /*비지니스 로직 담당*/
 public class MemoService {
 
     //MemoRepository memoRepository = new MemoRepository(jdbcTemplate); 중복 제거
     private final MemoRepository memoRepository;
+
+    //@Autowired : 생성자 1개까지는 생략가능 단, Bean 일 경우만 가능
+    //생성자 주입이 좋은 이유 : 객체의 불변성을 지켜준다
     public MemoService(MemoRepository memoRepository) {
+        //수동으로 IoC Container 에 접근해서 Bean 이름으로 가져오는 방법 01
+        //MemoRepository memoRepository = (MemoRepository) context.getBean("memoRepository");
+
+        //수동으로 IoC Container 에 접근해서 Bean 클래스 형식으로 가져오는 방법 02
+        //MemoRepository memoRepository = context.getBean(MemoRepository.class);
+        
+        //자동으로 가져오기
         this.memoRepository=memoRepository;
     }
 
