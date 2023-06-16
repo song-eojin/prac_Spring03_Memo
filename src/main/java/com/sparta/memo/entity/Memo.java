@@ -1,27 +1,30 @@
 package com.sparta.memo.entity;
 
-//entity 패키지 : 데이터베이스와 소통할 때 사용하는 패키지
-
 import com.sparta.memo.dto.MemoRequestDto;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity // JPA 가 관리할 수 있는 Entity 클래스 지정
 @Getter
 @Setter
+@Table(name = "memo") // 매핑할 테이블의 이름을 지정
 @NoArgsConstructor
 public class Memo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "username", nullable = false)
     private String username;
+    @Column(name = "contents", nullable = false, length = 500)
     private String contents;
 
-    //클라이언트에게서 받아온 memoRequestDto 즉, 데이터를 현재 클래스 필드들에 각각 저장해주는 생성자
-    public Memo(MemoRequestDto memoRequestDto) {
-        this.username = memoRequestDto.getUsername();
-        this.contents = memoRequestDto.getContents();
+    public Memo(MemoRequestDto requestDto) {
+        this.username = requestDto.getUsername();
+        this.contents = requestDto.getContents();
     }
 
-    //메모 변경하기 기능을 위한 메서드
     public void update(MemoRequestDto requestDto) {
         this.username = requestDto.getUsername();
         this.contents = requestDto.getContents();
